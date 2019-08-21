@@ -13,19 +13,19 @@ import resources.LogoutD;
 import resources.UpdateCommentPut;
 
 public class UpdateCommentTests extends TestBase {
-	UpdateCommentPut updateComm;
-	DeleteCommentD dcd;
-	AddBugPost abp;
-	AddCommentToBugPost addComm;
-	DeleteBugDel dbd;
-	LogoutD lg;
+	private UpdateCommentPut updateComm;
+	private DeleteCommentD dcd;
+	private AddBugPost abp;
+	private AddCommentToBugPost addComm;
+	private DeleteBugDel dbd;
+	private LogoutD lg;
 
 	private String bugId;
 	private String commentId;
 	private String token;
 
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		token = getToken();
 
 		abp = new AddBugPost();
@@ -40,12 +40,12 @@ public class UpdateCommentTests extends TestBase {
 	}
 
 	@BeforeMethod
-	public void addComment() {
+	private void addComment() {
 		commentId = addComm.addCommentToBug(bugId, token, "bodyOfTheComment");
 	}
 
 	@Test
-	public void updateCommentTest() {
+	private void updateCommentTest() {
 		String body = "updating existing comment";
 		updateComm.updateComment(bugId, commentId, token, body, "role", "Administrators", 200);
 		Assert.assertEquals(js.get("body"), body);
@@ -53,7 +53,7 @@ public class UpdateCommentTests extends TestBase {
 	}
 
 	@Test
-	public void updateCommentForNonExistingBugTest() {
+	private void updateCommentForNonExistingBugTest() {
 
 		updateComm.updateComment("1234", commentId, token, "updating existing comment", "role", "Administrators", 404);
 		Assert.assertEquals(js.get("errorMessages[0]"), "Issue Does Not Exist");
@@ -61,7 +61,7 @@ public class UpdateCommentTests extends TestBase {
 	}
 
 	@Test
-	public void updateNonExistingCommentTest() {
+	private void updateNonExistingCommentTest() {
 		String invalidCommentId = "1234";
 		updateComm.updateComment(bugId, invalidCommentId, token, "updating existing comment", "role", "Administrators",
 				404);
@@ -70,13 +70,13 @@ public class UpdateCommentTests extends TestBase {
 	}
 
 	@Test
-	public void updateCommentUnathorizedTest() {
+	private void updateCommentUnathorizedTest() {
 		updateComm.updateComment(bugId, commentId, "asdf", "updating existing comment", "role", "Administrators", 401);
 
 	}
 
 	@Test
-	public void updateCommentWithoutBodyTest() {
+	private void updateCommentWithoutBodyTest() {
 
 		updateComm.updateComment(bugId, commentId, getToken(), "", "role", "Administrators", 400);
 		Assert.assertEquals(js.get("errors.comment"), "Comment body can not be empty!");
@@ -84,7 +84,7 @@ public class UpdateCommentTests extends TestBase {
 	}
 
 	@Test
-	public void updateCommentWithoutTypeTest() {
+	private void updateCommentWithoutTypeTest() {
 
 		updateComm.updateComment(bugId, commentId, getToken(), "body update", "", "Administrators", 400);
 		Assert.assertTrue(js.get("errorMessages[0]").toString().contains("Can not construct instance of"));
@@ -92,7 +92,7 @@ public class UpdateCommentTests extends TestBase {
 	}
 
 	@Test
-	public void updateCommentWithoutValueTest() {
+	private void updateCommentWithoutValueTest() {
 
 		updateComm.updateComment(bugId, commentId, getToken(), "body update", "role", "", 500);
 		Assert.assertTrue(js.get("errorMessages[0]").toString().contains("Internal server error"));
@@ -100,12 +100,12 @@ public class UpdateCommentTests extends TestBase {
 	}
 
 	@AfterMethod
-	public void deleteComm() {
+	private void deleteComm() {
 		dcd.deleteComment(token, bugId, commentId);
 	}
 
 	@AfterTest
-	public void tearDown() {
+	private void tearDown() {
 		dbd.deleteBug(bugId, token);
 		lg.logout(token);
 

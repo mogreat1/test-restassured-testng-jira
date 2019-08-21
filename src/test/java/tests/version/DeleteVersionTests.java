@@ -12,15 +12,15 @@ import resources.DeleteVersionD;
 
 public class DeleteVersionTests extends TestBase {
 
-	AddVersionPost avp;
-	DeleteVersionD dvd;
+	private AddVersionPost avp;
+	private DeleteVersionD dvd;
 
 	private String token;
 	private String versionId;
 	private String name;
 
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		avp = new AddVersionPost();
 		token = getToken();
 		dvd = new DeleteVersionD();
@@ -28,21 +28,21 @@ public class DeleteVersionTests extends TestBase {
 	}
 
 	@BeforeMethod
-	public void setValues() {
+	private void setValues() {
 		name = "some excellent name";
 		versionId = avp.addVersion(token, name);
 
 	}
 
 	@Test
-	public void deleteVersTest() {
+	private void deleteVersTest() {
 
 		dvd.deleteVersion(token, versionId, 204);
 
 	}
 
 	@Test
-	public void deleteDeletedVersTest() {
+	private void deleteDeletedVersTest() {
 
 		dvd.deleteVersion(token, versionId);
 		js = dvd.deleteVersion(token, versionId, 404);
@@ -51,7 +51,7 @@ public class DeleteVersionTests extends TestBase {
 	}
 
 	@AfterMethod
-	public void tearDown() {
+	private void tearDown() {
 		dvd.deleteVersion(token, versionId);
 	}
 

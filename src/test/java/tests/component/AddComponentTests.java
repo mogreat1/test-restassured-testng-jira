@@ -10,13 +10,13 @@ import resources.AddComponentPost;
 import resources.DeleteComponentDel;
 
 public class AddComponentTests extends TestBase {
-	AddComponentPost ccp;
-	DeleteComponentDel ccd;
-	String componentId;
-	String token;
+	private AddComponentPost ccp;
+	private DeleteComponentDel ccd;
+	private String componentId;
+	private String token;
 
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		ccp = new AddComponentPost();
 		ccd = new DeleteComponentDel();
 		token = getToken();
@@ -24,7 +24,7 @@ public class AddComponentTests extends TestBase {
 	}
 
 	@Test
-	public void createComponentTest() {
+	private void createComponentTest() {
 		String name = "A new component name";
 		JsonPath js = ccp.createComponent(token, name, prop.getProperty("username"), prop.getProperty("key"), 201);
 		componentId = js.get("id");
@@ -39,14 +39,14 @@ public class AddComponentTests extends TestBase {
 	}
 
 	@Test
-	public void createComponentNonExstingProjectTest() {
+	private void createComponentNonExstingProjectTest() {
 		JsonPath js = ccp.createComponent(token, "name", prop.getProperty("username"), "xxx", 404);
 		Assert.assertTrue(js.get("errorMessages[0]").toString().contains("No project could be found with key"));
 
 	}
 
 	@Test
-	public void createComponentNonExstingUserTest() {
+	private void createComponentNonExstingUserTest() {
 		JsonPath js = ccp.createComponent(token, "names", prop.getProperty("username") + 1, prop.getProperty("key"),
 				400);
 		Assert.assertTrue(js.get("errors.leadUserName").toString()
@@ -55,7 +55,7 @@ public class AddComponentTests extends TestBase {
 	}
 
 	@Test
-	public void createComponentEmptyNameTest() {
+	private void createComponentEmptyNameTest() {
 		JsonPath js = ccp.createComponent(token, "", prop.getProperty("username"), prop.getProperty("key"), 400);
 		Assert.assertEquals(js.get("errors.name"),
 				"The component name specified is invalid - cannot be an empty string.");

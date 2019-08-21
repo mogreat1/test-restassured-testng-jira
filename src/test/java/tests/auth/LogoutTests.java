@@ -7,37 +7,37 @@ import resources.LogoutD;
 
 public class LogoutTests extends TestBase {
 
-	LogoutD lg;
-	String token;
+	private LogoutD lg;
+	private String token;
 
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		lg = new LogoutD();
 	}
 
 	@BeforeMethod
-	public void logIn() {
+	private void logIn() {
 		token = getToken();
 	}
 
 	@Test
-	public void logoutTest() {
+	private void logoutTest() {
 		lg.logout(token, 204);
 	}
 
 	@Test
-	public void logoutWrongTokenTest() {
+	private void logoutWrongTokenTest() {
 		lg.logout(token + 1, 401);
 	}
 
 	@Test
-	public void logoutWithoutAuthTest() {
+	private void logoutWithoutAuthTest() {
 		lg.logout(token);
 		lg.logout(token, 401);
 	}
 
 	@AfterMethod
-	public void tearDown() {
+	private void tearDown() {
 		lg.logout(token);
 	}
 

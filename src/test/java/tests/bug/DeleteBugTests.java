@@ -12,14 +12,14 @@ import resources.DeleteBugDel;
 import resources.LogoutD;
 
 public class DeleteBugTests extends TestBase {
-	DeleteBugDel dbd;
-	AddBugPost abp;
-	LogoutD lg;
+	private DeleteBugDel dbd;
+	private AddBugPost abp;
+	private LogoutD lg;
 	private String bugId;
 	private String token;
 	
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		dbd = new DeleteBugDel();
 		abp = new AddBugPost();
 		lg = new LogoutD();
@@ -27,20 +27,20 @@ public class DeleteBugTests extends TestBase {
 	}
 
 	@BeforeMethod
-	public void addBug() {
+	private void addBug() {
 		bugId = abp.addBug(prop.getProperty("key"), token, "summary1", "desc");
 
 	}
 
 	@Test
-	public void deleteBugTest() {
+	private void deleteBugTest() {
 
 		dbd.deleteBug(bugId, token, 204);
 
 	}
 
 	@Test
-	public void deleteDeletedBugTest() {
+	private void deleteDeletedBugTest() {
 		dbd.deleteBug(bugId, token);
 		dbd.deleteBug(bugId, getToken(), 404);
 		Assert.assertEquals(js.get("errorMessages[0]"), "Issue Does Not Exist");
@@ -48,7 +48,7 @@ public class DeleteBugTests extends TestBase {
 	}
 	
 	@AfterTest
-	public void tearDown() {
+	private void tearDown() {
 		lg.logout(token);
 	}
 

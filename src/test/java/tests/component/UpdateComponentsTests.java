@@ -10,17 +10,17 @@ import resources.DeleteComponentDel;
 import resources.UpdateComponent;
 
 public class UpdateComponentsTests extends TestBase {
-	AddComponentPost acp;
-	UpdateComponent uc;
-	DeleteComponentDel dcd;
-	String componentId;
-	String token;
-	String compName;
-	String descr;
-	String key2;
+	private AddComponentPost acp;
+	private UpdateComponent uc;
+	private DeleteComponentDel dcd;
+	private String componentId;
+	private String token;
+	private String compName;
+	private String descr;
+	private String key2;
 
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		acp = new AddComponentPost();
 		uc = new UpdateComponent();
 		token = getToken();
@@ -29,14 +29,14 @@ public class UpdateComponentsTests extends TestBase {
 	}
 
 	@BeforeMethod
-	public void createComponent() {
+	private void createComponent() {
 
 		componentId = acp.createComponentId(token, "component n", prop.getProperty("username"), prop.getProperty("key"),
 				201);
 	}
 
 	@Test
-	public void updateComponentTest() {
+	private void updateComponentTest() {
 		compName = "new name";
 		descr = "new descr";
 		key2 = prop.getProperty("key2");
@@ -50,20 +50,20 @@ public class UpdateComponentsTests extends TestBase {
 	}
 
 	@Test
-	public void updateToEmptyNameTest() {
+	private void updateToEmptyNameTest() {
 		js = uc.updateComponent(token, componentId, "", "desc", prop.getProperty("username"), key2, 400);
 		Assert.assertEquals(js.get("errors.name"),
 				"The component name specified is invalid - cannot be an empty string.");
 	}
 
 	@Test
-	public void updateToEmptyDescTest() {
+	private void updateToEmptyDescTest() {
 		js = uc.updateComponent(token, componentId, "namee", "desc", prop.getProperty("username"), key2, 200);
 		Assert.assertTrue(js.get("errors.description") == null);
 	}
 
 	@Test
-	public void updateToNonExistingUserNameTest() {
+	private void updateToNonExistingUserNameTest() {
 		String userName = prop.getProperty("username") + 1;
 		js = uc.updateComponent(token, componentId, "namee", "desc", userName, key2, 400);
 		SoftAssert sa = new SoftAssert();
@@ -74,7 +74,7 @@ public class UpdateComponentsTests extends TestBase {
 	}
 	
 	@Test
-	public void updateNonExistingComponentTest() {
+	private void updateNonExistingComponentTest() {
 		String wrongCompId = componentId+1;
 		js = uc.updateComponent(token, wrongCompId, "namee", "desc", prop.getProperty("username"), key2, 404);
 		Assert.assertEquals(js.get("errorMessages[0]"), "The component with id "+wrongCompId+" does not exist.");
@@ -85,7 +85,7 @@ public class UpdateComponentsTests extends TestBase {
 
 
 	@AfterMethod
-	public void tearDown() {
+	private void tearDown() {
 		dcd.deleteComponent(token, componentId, 204);
 	}
 

@@ -14,12 +14,12 @@ public class GetVersionTests extends TestBase {
 	private String versionId;
 	private String name;
 
-	AddVersionPost av;
-	GetVersionG gv;
-	DeleteVersionD dv;
+	private AddVersionPost av;
+	private GetVersionG gv;
+	private DeleteVersionD dv;
 
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		av = new AddVersionPost();
 		gv = new GetVersionG();
 		dv = new DeleteVersionD();
@@ -32,7 +32,7 @@ public class GetVersionTests extends TestBase {
 	}
 
 	@Test
-	public void getVersionTest() {
+	private void getVersionTest() {
 
 		js = gv.getVetsion(token, versionId, 200);
 		SoftAssert sa = new SoftAssert();
@@ -45,7 +45,7 @@ public class GetVersionTests extends TestBase {
 	}
 
 	@AfterTest
-	public void deleteVersion() {
+	private void deleteVersion() {
 		dv.deleteVersion(token, versionId);
 	}
 

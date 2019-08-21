@@ -9,47 +9,42 @@ import base.TestBase;
 import resources.AuthorizePost;
 
 public class AuthorizeTests extends TestBase {
-	AuthorizePost ap;
+	private AuthorizePost ap;
 
 	@BeforeMethod
-	public void setUp() {
+	private void setUp() {
 		ap = new AuthorizePost();
 	}
 
 	@Test
-	public void authorizeTest() {
-
+	private void authorizeTest() {
 		js = ap.authorizePost(prop.getProperty("username"), prop.getProperty("password"), 200);
 		Assert.assertEquals(js.get("session.name"), "JSESSIONID");
 
 	}
 
 	@Test
-	public void invalidUsername() {
-
+	private void invalidUsername() {
 		js = ap.authorizePost("something", prop.getProperty("password"), 401);
 		Assert.assertEquals(js.get("errorMessages[0]"), "Login failed");
 
 	}
 
 	@Test
-	public void invalidPassword() {
-
+	private void invalidPassword() {
 		js = ap.authorizePost(prop.getProperty("username"), "password", 401);
 		Assert.assertEquals(js.get("errorMessages[0]"), "Login failed");
 
 	}
 
 	@Test(dataProvider = "loginData")
-	public void invalidMultiauthorizeTest(String username, String password) {
-
+	private void invalidMultyAuthorizeTest(String username, String password) {
 		js = ap.authorizePost(username, password, 401);
 		Assert.assertEquals(js.get("errorMessages[0]"), "Login failed");
 	}
 
 	@DataProvider(name = "loginData")
-	public Object[][] getData() {
-
+	private Object[][] getData() {
 		return new Object[][] { { "one", "123" }, { "two", "321" }, { "three", "456" } };
 
 	}

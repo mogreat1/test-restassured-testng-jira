@@ -12,17 +12,17 @@ import resources.LogoutD;
 
 public class AddCommentToBugTests extends TestBase {
 
-	AddCommentToBugPost addComToBug;
-	DeleteBugDel dbd;
-	AddBugPost abp;
-	DeleteCommentD dcd;
-	LogoutD lg;
+	private AddCommentToBugPost addComToBug;
+	private DeleteBugDel dbd;
+	private AddBugPost abp;
+	private DeleteCommentD dcd;
+	private LogoutD lg;
 	private String bugId;
 	private String token;
 	private String comId;
 
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		abp = new AddBugPost();
 		dbd = new DeleteBugDel();
 		addComToBug = new AddCommentToBugPost();
@@ -34,7 +34,7 @@ public class AddCommentToBugTests extends TestBase {
 	}
 
 	@Test
-	public void addCommentToBugTest() {
+	private void addCommentToBugTest() {
 		String body = "Body of the comm";
 		addComToBug.addCommentToBug(bugId, getToken(), body, "role", "Administrators", 201);
 		comId = js.get("id");
@@ -44,7 +44,7 @@ public class AddCommentToBugTests extends TestBase {
 	}
 
 	@Test
-	public void addCommentToNonExistingBugTest() {
+	private void addCommentToNonExistingBugTest() {
 
 		addComToBug.addCommentToBug("1234", getToken(), "body", "role", "Administrators", 404);
 		Assert.assertEquals(js.get("errorMessages[0]"), "Issue Does Not Exist");
@@ -52,14 +52,14 @@ public class AddCommentToBugTests extends TestBase {
 	}
 
 	@Test
-	public void addCommentToUnauthorizedBugTest() {
+	private void addCommentToUnauthorizedBugTest() {
 
 		addComToBug.addCommentToBug(bugId, "asdf", "body", "role", "Administrators", 401);
 
 	}
 
 	@Test
-	public void addCommentToBugWithoutBodyTest() {
+	private void addCommentToBugWithoutBodyTest() {
 
 		addComToBug.addCommentToBug(bugId, getToken(), "", "role", "Administrators", 400);
 		Assert.assertEquals(js.get("errors.comment"), "Comment body can not be empty!");
@@ -67,7 +67,7 @@ public class AddCommentToBugTests extends TestBase {
 	}
 
 	@Test
-	public void addCommentToBugWithoutTypeTest() {
+	private void addCommentToBugWithoutTypeTest() {
 
 		addComToBug.addCommentToBug(bugId, getToken(), "body", "", "Administrators", 400);
 		Assert.assertTrue(js.get("errorMessages[0]").toString().contains("Can not construct instance of"));
@@ -75,7 +75,7 @@ public class AddCommentToBugTests extends TestBase {
 	}
 
 	@Test
-	public void addCommentToBugWithoutVaueTest() {
+	private void addCommentToBugWithoutVaueTest() {
 
 		addComToBug.addCommentToBug(bugId, getToken(), "body", "role", "", 500);
 		Assert.assertEquals(js.get("errorMessages[0]"), "Internal server error");
@@ -83,7 +83,7 @@ public class AddCommentToBugTests extends TestBase {
 	}
 
 	@AfterTest
-	public void tearDown() {
+	private void tearDown() {
 		dbd.deleteBug(bugId, token);
 		lg.logout(token);
 	}

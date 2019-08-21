@@ -9,14 +9,14 @@ import resources.DeleteBugDel;
 import resources.LogoutD;
 
 public class AddBugTests extends TestBase {
-	AddBugPost abp;
-	DeleteBugDel dbd;
-	LogoutD lg;
+	private AddBugPost abp;
+	private DeleteBugDel dbd;
+	private LogoutD lg;
 	private String bugId;
 	private String token;
 
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		abp = new AddBugPost();
 		dbd = new DeleteBugDel();
 		lg = new LogoutD();
@@ -24,7 +24,7 @@ public class AddBugTests extends TestBase {
 	}
 
 	@Test(enabled = true)
-	public void addBugTest() {
+	private void addBugTest() {
 
 		js = abp.addBug(prop.getProperty("key"), token, "wonderful bug", "asdf", "Bug", 201);
 		bugId = js.get("id");
@@ -32,7 +32,7 @@ public class AddBugTests extends TestBase {
 	}
 
 	@Test(enabled = true)
-	public void emptyKeyTest() {
+	private void emptyKeyTest() {
 
 		js = abp.addBug("", getToken(), "Issue test", "some new issue", "Bug", 400);
 		bugId = js.get("id");
@@ -41,7 +41,7 @@ public class AddBugTests extends TestBase {
 	}
 
 	@Test(enabled = true)
-	public void nonExistingKeyTest() {
+	private void nonExistingKeyTest() {
 
 		js = abp.addBug("ASD", getToken(), "Issue test", "some new issue", "Bug", 400);
 		bugId = js.get("id");
@@ -50,7 +50,7 @@ public class AddBugTests extends TestBase {
 	}
 
 	@Test(enabled = true)
-	public void emptySummaryTest() {
+	private void emptySummaryTest() {
 
 		js = abp.addBug(prop.getProperty("key"), getToken(), "", "some new issue", "Bug", 400);
 		bugId = js.get("id");
@@ -59,7 +59,7 @@ public class AddBugTests extends TestBase {
 	}
 
 	@Test(enabled = true)
-	public void emptyIssueTypeTest() {
+	private void emptyIssueTypeTest() {
 
 		abp.addBug(prop.getProperty("key"), getToken(), "Issue test", "Description of the issue", "", 400);
 		bugId = js.get("id");
@@ -68,7 +68,7 @@ public class AddBugTests extends TestBase {
 	}
 
 	@Test(enabled = true)
-	public void wrongIssueTypeTest() {
+	private void wrongIssueTypeTest() {
 
 		abp.addBug(prop.getProperty("key"), getToken(), "Issue test", "Description of the issue", "Bugg", 400);
 		bugId = js.get("id");
@@ -77,12 +77,12 @@ public class AddBugTests extends TestBase {
 	}
 
 	@AfterMethod
-	public void DeleteBug() {
+	private void DeleteBug() {
 		dbd.deleteBug(bugId, token);
 	}
 
 	@AfterTest
-	public void tearDown() {
+	private void tearDown() {
 		lg.logout(token);
 	}
 

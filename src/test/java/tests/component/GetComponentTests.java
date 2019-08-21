@@ -11,13 +11,13 @@ import resources.GetComponentGet;
 
 public class GetComponentTests extends TestBase {
 
-	AddComponentPost acp;
-	GetComponentGet gcg;
+	private AddComponentPost acp;
+	private GetComponentGet gcg;
 	private String token;
 	private String componentId;
 
 	@BeforeTest
-	public void setUp() {
+	private void setUp() {
 		acp = new AddComponentPost();
 		token = getToken();
 		gcg = new GetComponentGet();
@@ -25,13 +25,13 @@ public class GetComponentTests extends TestBase {
 	}
 
 	@BeforeMethod
-	public void createComponent() {
+	private void createComponent() {
 		componentId = acp.createComponentId(token, "somename", prop.getProperty("username"), prop.getProperty("key"),
 				201);
 	}
 
 	@Test
-	public void getComponentTest() {
+	private void getComponentTest() {
 		js = gcg.getComponent(token, componentId, 200);
 		SoftAssert sa = new SoftAssert();
 		sa.assertEquals(js.get("project"), prop.getProperty("key"));
@@ -40,7 +40,7 @@ public class GetComponentTests extends TestBase {
 	}
 
 	@Test
-	public void getNonExistingComponentTest() {
+	private void getNonExistingComponentTest() {
 		String wrongCompId = componentId + 1;
 		js = gcg.getComponent(token, wrongCompId, 404);
 		Assert.assertEquals(js.get("errorMessages[0]"), "The component with id " + wrongCompId + " does not exist.");
@@ -48,7 +48,7 @@ public class GetComponentTests extends TestBase {
 	}
 
 	@AfterMethod
-	public void tearDown() {
+	private void tearDown() {
 		new DeleteComponentDel().deleteComponent(token, componentId, 204);
 	}
 
